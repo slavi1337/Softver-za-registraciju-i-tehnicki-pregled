@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SoftverZaRegistraciju
 {
     public partial class AdminForm : Form
     {
         private string loggedInUsername;
+        private readonly string connectionString = "Data Source=DESKTOP-0THU24A\\SQLEXPRESS;Initial Catalog=KorisnickiNalozi;Integrated Security=True";
+        private CreateAccount? createForm = null;
+        private changePass? passChangeForm = null;
+
         public AdminForm(string username)
         {
             InitializeComponent();
@@ -22,23 +17,22 @@ namespace SoftverZaRegistraciju
             dataGridView1.CellFormatting += new DataGridViewCellFormattingEventHandler(dataGridView1_CellFormatting);
         }
 
-
-
         private void AdminForm_Load(object sender, EventArgs e)
         {
+            label2.Text = loggedInUsername;
             dataGridView1.DataSource = GetData();
             FormatDataGridViewHeaders();
         }
+
         private DataTable GetData()
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-0THU24A\\SQLEXPRESS;Initial Catalog=KorisnickiNalozi;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
                 {
                     con.Open();
-                    // Pretpostavimo da želite učitati sve kolone iz tabele koja se zove 'Accounts'
                     string query = "SELECT * FROM KorisnickiNalozi";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -48,32 +42,48 @@ namespace SoftverZaRegistraciju
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Došlo je do greške prilikom učitavanja podataka: " + ex.Message);
+                    MessageBox.Show("Doslo je do greske prilikom ucitavanja podataka: " + ex.Message);
                 }
             }
             return dataTable;
-
         }
 
+        //odjava->prebacivanje na login formu
+        //kad se zatvori login forma, i ova forma se zatvara
+        //poziva se close na njoj
         private void button3_Click(object sender, EventArgs e)
         {
-            //odjava->prebacivanje na login formu
+            CloseSecondaryForms();
             this.Hide();
             Form1 loginForm = new Form1();
             loginForm.Closed += (s, args) => this.Close();
             loginForm.Show();
         }
 
+        private void CloseSecondaryForms()
+        {
+            createForm?.Close();
+            passChangeForm?.Close();
+        }
+
+        //kreairanje naloga->otvaranje forme za kreiranje naloga
         private void button1_Click(object sender, EventArgs e)
         {
-            //kreairanje naloga->otvaranje forme za kreiranje naloga
-            CreateAccount createForm = new CreateAccount();
-            createForm.Show();
+            if (createForm == null || createForm.IsDisposed)
+            {
+                createForm = new CreateAccount();
+                createForm.FormClosed += (s, args) => createForm = null;
+                createForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Vec imate otvorenu formu za kreiranje naloga.\nZatvorite je, pa je opet mozete pokrenuti.");
+            }
         }
 
         private void DeleteAccount(string username)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-0THU24A\\SQLEXPRESS;Initial Catalog=KorisnickiNalozi;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -84,11 +94,11 @@ namespace SoftverZaRegistraciju
                         cmd.Parameters.AddWithValue("@username", username);
                         cmd.ExecuteNonQuery();
                     }
-                    MessageBox.Show("Uspješno ste obrisati nalog sa korisnickim imenom \"" + username + "\".\nPritisnite dugme \"Osvjezi\" za osvjezavanje podataka!");
+                    MessageBox.Show("Uspjesno ste obrisati nalog sa korisnickim imenom \"" + username + "\".\nPritisnite dugme \"Osvjezi\" za osvjezavanje podataka!");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Došlo je do greške: " + ex.Message);
+                    MessageBox.Show("Doslo je do greske: " + ex.Message);
                 }
             }
         }
@@ -103,14 +113,14 @@ namespace SoftverZaRegistraciju
                 // Provera da li je usernameToDelete null ili prazan string
                 if (string.IsNullOrEmpty(usernameToDelete))
                 {
-                    MessageBox.Show("Korisničko ime nije odabrano ili je prazno.");
+                    MessageBox.Show("Korisnicko ime nije odabrano ili je prazno.");
                     return;
                 }
 
                 // Provera da li je usernameToDelete isti kao loggedInUsername
                 if (usernameToDelete.Equals(loggedInUsername, StringComparison.OrdinalIgnoreCase))
                 {
-                    MessageBox.Show("Ne možete obrisati nalog na kojem ste trenutno ulogovani.");
+                    MessageBox.Show("Ne mozete obrisati nalog na kojem ste trenutno prijavljeni.");
                     return;
                 }
 
@@ -122,23 +132,27 @@ namespace SoftverZaRegistraciju
             }
         }
 
-
+        //dugme "osvjezi"
         private void button4_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = GetData();
         }
 
+        //prebacivanje na formu za promjenu sifre
         private void button5_Click(object sender, EventArgs e)
         {
-            changePass passChange = new changePass(loggedInUsername);
-            passChange.Show();
+            if (passChangeForm == null || passChangeForm.IsDisposed)
+            {
+                passChangeForm = new changePass(loggedInUsername);
+                passChangeForm.FormClosed += (s, args) => passChangeForm = null;
+                passChangeForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Vec imate otvorenu formu za mijenjanje sifre.\nZatvorite je, pa je opet mozete pokrenuti.");
+            }
         }
 
-
-        //Da biste rešili ovo upozorenje, možete dodati nullable anotaciju na parametar
-        //sender tako što ćete ga označiti kao tip koji može biti null. U C# 8.0 i
-        //novijim verzijama, možete eksplicitno navesti da parametar može biti null
-        //pomoću ? operatera
         private void dataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Role")
@@ -163,7 +177,6 @@ namespace SoftverZaRegistraciju
 
         private void FormatDataGridViewHeaders()
         {
-            // Provjerite da li kolone postoje pre nego što pokušate da pristupite njihovim svojstvima
             if (dataGridView1.Columns["UserID"] != null)
                 dataGridView1.Columns["UserID"].HeaderText = "ID";
 
@@ -175,6 +188,60 @@ namespace SoftverZaRegistraciju
 
             if (dataGridView1.Columns["Role"] != null)
                 dataGridView1.Columns["Role"].HeaderText = "Vrsta";
+        }
+
+        private void AdminForm_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            if ((createForm != null && !createForm.IsDisposed) || (passChangeForm != null && !passChangeForm.IsDisposed))
+            {
+                MessageBox.Show("Molimo zatvorite sve otvorene podforme prije nego sto zatvorite ovu formu.");
+                e.Cancel = true;  // Ponistava zatvaranje forme
+
+            }
+            else
+            {
+                Application.Exit();
+            }
+
+        }
+
+        private void FilterData(string role)
+        {
+            if (dataGridView1.DataSource is DataTable dataTable)
+            {
+                if (string.IsNullOrEmpty(role))
+                {
+                    dataTable.DefaultView.RowFilter = "";
+                }
+                else
+                {
+                    dataTable.DefaultView.RowFilter = $"Role = '{role}'";
+                }
+            }
+        }
+
+        //filter admin
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FilterData("2");
+        }
+
+        //filter radnik
+        private void button7_Click(object sender, EventArgs e)
+        {
+            FilterData("1");
+        }
+
+        //filter obicni korisnik
+        private void button8_Click(object sender, EventArgs e)
+        {
+            FilterData("0");
+        }
+
+        //filter svi korisnici
+        private void button9_Click(object sender, EventArgs e)
+        {
+            FilterData("");
         }
     }
 }

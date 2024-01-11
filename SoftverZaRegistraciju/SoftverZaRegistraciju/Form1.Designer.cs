@@ -50,26 +50,24 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(461, 103);
+            label1.Font = new Font("Arial Rounded MT Bold", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(446, 99);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(155, 23);
+            label1.Size = new Size(179, 27);
             label1.TabIndex = 0;
             label1.Text = "Korisnicko Ime";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(532, 179);
+            label2.Font = new Font("Arial Rounded MT Bold", 13.2000008F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(525, 175);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(84, 23);
+            label2.Size = new Size(99, 27);
             label2.TabIndex = 1;
             label2.Text = "Lozinka";
-            label2.Click += label2_Click;
             // 
             // label3
             // 
@@ -81,12 +79,12 @@
             label3.Size = new Size(148, 23);
             label3.TabIndex = 2;
             label3.Text = "Nemas nalog?";
-            label3.Click += label3_Click;
             // 
             // loginButton
             // 
             loginButton.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            loginButton.Location = new Point(643, 272);
+            loginButton.ForeColor = SystemColors.Highlight;
+            loginButton.Location = new Point(643, 302);
             loginButton.Margin = new Padding(4, 3, 4, 3);
             loginButton.Name = "loginButton";
             loginButton.Size = new Size(200, 64);
@@ -99,7 +97,8 @@
             // 
             passCheckBox.AutoSize = true;
             passCheckBox.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            passCheckBox.Location = new Point(798, 222);
+            passCheckBox.ForeColor = SystemColors.ControlText;
+            passCheckBox.Location = new Point(798, 237);
             passCheckBox.Margin = new Padding(4, 3, 4, 3);
             passCheckBox.Name = "passCheckBox";
             passCheckBox.Size = new Size(169, 27);
@@ -138,10 +137,10 @@
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
             panel1.ForeColor = SystemColors.Highlight;
-            panel1.Location = new Point(2, 0);
+            panel1.Location = new Point(-3, 0);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(1);
-            panel1.Size = new Size(400, 500);
+            panel1.Size = new Size(405, 508);
             panel1.TabIndex = 8;
             // 
             // label10
@@ -151,9 +150,9 @@
             label10.ForeColor = SystemColors.Desktop;
             label10.Location = new Point(4, 263);
             label10.Name = "label10";
-            label10.Size = new Size(380, 20);
+            label10.Size = new Size(378, 20);
             label10.TabIndex = 5;
-            label10.Text = "Ukoliko nemate nalog, mozete ga registrovati";
+            label10.Text = "Ukoliko nemate nalog, mozete se registrovati";
             // 
             // label9
             // 
@@ -170,8 +169,8 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.ForeColor = SystemColors.HighlightText;
-            label8.Location = new Point(76, 102);
+            label8.ForeColor = SystemColors.Window;
+            label8.Location = new Point(60, 102);
             label8.Name = "label8";
             label8.Size = new Size(275, 34);
             label8.TabIndex = 3;
@@ -181,7 +180,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.ForeColor = SystemColors.HighlightText;
+            label7.ForeColor = SystemColors.Window;
             label7.Location = new Point(105, 68);
             label7.Name = "label7";
             label7.Size = new Size(185, 34);
@@ -192,7 +191,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Arial Rounded MT Bold", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.ForeColor = SystemColors.HighlightText;
+            label6.ForeColor = SystemColors.Window;
             label6.Location = new Point(4, 480);
             label6.Name = "label6";
             label6.Size = new Size(216, 15);
@@ -204,7 +203,7 @@
             label5.AutoSize = true;
             label5.BackColor = SystemColors.Highlight;
             label5.Font = new Font("Arial Rounded MT Bold", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.ForeColor = SystemColors.HighlightText;
+            label5.ForeColor = SystemColors.Window;
             label5.Location = new Point(110, 33);
             label5.Name = "label5";
             label5.Size = new Size(174, 34);
@@ -213,6 +212,7 @@
             // 
             // regButton
             // 
+            regButton.ForeColor = SystemColors.Highlight;
             regButton.Location = new Point(922, 451);
             regButton.Name = "regButton";
             regButton.Size = new Size(148, 40);
@@ -224,7 +224,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.BackColor = SystemColors.Control;
+            label4.BackColor = SystemColors.Info;
             label4.Font = new Font("Arial Rounded MT Bold", 24F, FontStyle.Regular, GraphicsUnit.Point);
             label4.ForeColor = SystemColors.Highlight;
             label4.Location = new Point(402, 1);
@@ -237,6 +237,7 @@
             // 
             AutoScaleDimensions = new SizeF(12F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Info;
             ClientSize = new Size(1082, 503);
             Controls.Add(label4);
             Controls.Add(regButton);
@@ -254,7 +255,7 @@
             MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Prijava";
+            Text = "Softver za Registraciju Vozila - Prijava";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);

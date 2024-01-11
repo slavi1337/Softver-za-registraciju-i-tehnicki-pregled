@@ -4,33 +4,25 @@ namespace SoftverZaRegistraciju
 {
     public partial class Form1 : Form
     {
+        private readonly string connectionString = "Data Source=DESKTOP-0THU24A\\SQLEXPRESS;Initial Catalog=KorisnickiNalozi;Integrated Security=True";
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //prebacivanje na formu za registraciju
+        //mora se proslijediti ova forma, zbog dugmeta "nazad" na formi za reg
         private void regButton_Click(object sender, EventArgs e)
         {
             RegistrationForm regForm = new RegistrationForm(this);
             regForm.Show();
             this.Hide();
-
-
         }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=DESKTOP-0THU24A\\SQLEXPRESS;Initial Catalog=KorisnickiNalozi;Integrated Security=True"))
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
                 try
                 {
@@ -39,7 +31,7 @@ namespace SoftverZaRegistraciju
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@username", txtUsername.Text);
-                        cmd.Parameters.AddWithValue("@password", txtPassword.Text); // Razmotrite upotrebu hashirane lozinke
+                        cmd.Parameters.AddWithValue("@password", txtPassword.Text);
 
                         object roleObj = cmd.ExecuteScalar();
 
@@ -48,8 +40,9 @@ namespace SoftverZaRegistraciju
                             int role = Convert.ToInt32(roleObj);
                             this.Hide();
                             string loggedInUsername = txtUsername.Text;
-                            // Ovisno o ulozi, otvorite odgovarajuæu formu
-                            if (role == 0) // Obièni korisnik
+
+                            // U zavisnosti od uloge otvara odgovarajucu formu
+                            if (role == 0) // Obicni korisnik
                             {
                                 UserForm userForm = new UserForm(loggedInUsername);
                                 userForm.Show();
@@ -67,25 +60,21 @@ namespace SoftverZaRegistraciju
                         }
                         else
                         {
-                            MessageBox.Show("Neispravno korisnièko ime ili lozinka.");
+                            MessageBox.Show("Neispravno korisnicko ime ili lozinka.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Došlo je do greške: " + ex.Message);
+                    MessageBox.Show("Doslo je do greske: " + ex.Message);
                 }
             }
         }
 
+        //prikaz lozinke kad se pritisne checkBox
         private void passCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = !passCheckBox.Checked;
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

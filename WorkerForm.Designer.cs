@@ -33,6 +33,8 @@
             dataGridView1 = new DataGridView();
             label1 = new Label();
             panel1 = new Panel();
+            button8 = new Button();
+            button7 = new Button();
             button6 = new Button();
             button4 = new Button();
             button2 = new Button();
@@ -40,6 +42,7 @@
             label3 = new Label();
             label2 = new Label();
             btnCalc = new Button();
+            button9 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -92,6 +95,9 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Info;
+            panel1.Controls.Add(button9);
+            panel1.Controls.Add(button8);
+            panel1.Controls.Add(button7);
             panel1.Controls.Add(button6);
             panel1.Controls.Add(button4);
             panel1.Controls.Add(button2);
@@ -105,6 +111,26 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1090, 143);
             panel1.TabIndex = 10;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(334, 69);
+            button8.Name = "button8";
+            button8.Size = new Size(133, 67);
+            button8.TabIndex = 30;
+            button8.Text = "Izdaj tablice";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(489, 68);
+            button7.Name = "button7";
+            button7.Size = new Size(146, 68);
+            button7.TabIndex = 29;
+            button7.Text = "Izdaj potvrdu";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // button6
             // 
@@ -130,9 +156,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(489, 68);
+            button2.Location = new Point(945, 69);
             button2.Name = "button2";
-            button2.Size = new Size(146, 68);
+            button2.Size = new Size(133, 67);
             button2.TabIndex = 26;
             button2.Text = "Osvjezi";
             button2.UseVisualStyleBackColor = true;
@@ -181,6 +207,16 @@
             btnCalc.UseVisualStyleBackColor = true;
             btnCalc.Click += btnCalc_Click;
             // 
+            // button9
+            // 
+            button9.Location = new Point(334, 3);
+            button9.Name = "button9";
+            button9.Size = new Size(133, 66);
+            button9.TabIndex = 31;
+            button9.Text = "Izdaj stiker";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
             // WorkerForm
             // 
             AutoScaleDimensions = new SizeF(12F, 23F);
@@ -220,5 +256,8 @@
         private Button button2;
         private Button button6;
         private Button button4;
+        private Button button7;
+        private Button button8;
+        private Button button9;
     }
 }
